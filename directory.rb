@@ -27,7 +27,7 @@ def print(students)
     letter = gets.chomp
     students.each_with_index do |student, index|
         # if the students name starts with the letter chosen
-        if student[:name].start_with?(letter)
+        if student[:name].start_with?(letter) && student[:name].length < 12
             puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
         else
             # move onto next name in key/value pair
