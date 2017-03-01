@@ -43,10 +43,10 @@ def print(students)
     counter = 0
     while counter < students.length
         if students[counter][:name].start_with?(letter) && students[counter][:name].length < 12
-            puts "#{counter+1}. #{students[counter][:name]}"
-            puts "Year of Birth: #{students[counter][:birth_year]}"
-            puts "Hobby: #{students[counter][:hobby]}"
-            puts "Cohort: #{students[counter][:cohort]}"
+            puts "#{counter+1}. #{students[counter][:name]}".center(80)
+            puts "Year of Birth: #{students[counter][:birth_year]}".center(80)
+            puts "Hobby: #{students[counter][:hobby]}".center(80)
+            puts "Cohort: #{students[counter][:cohort]}".center(80)
             counter += 1
         else
             counter += 1
