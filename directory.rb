@@ -23,8 +23,15 @@ def print_header
 end
     
 def print(students)
+    puts "Please enter the letter you wish to filter names by"
+    letter = gets.chomp
     students.each_with_index do |student, index|
-        puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        # if the students name starts with the letter chosen
+        if student[:name].start_with?(letter)
+            puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        else
+            # move onto next name in key/value pair
+        end
     end
 end
 
