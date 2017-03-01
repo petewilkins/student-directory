@@ -8,27 +8,27 @@ def input_students
     
     puts "Welcome to the Villains Academy Student Directory"
     puts "Please enter the Students name: (press ENTER to skip)"
-    name = gets.chomp.capitalize
+    name = $stdin.gets.delete("\n").capitalize
     
     puts "Please add the student's birth year: (press ENTER to skip)"
-    birth_year = gets.chomp
+    birth_year = $stdin.gets.delete("\n")
     
     puts "Please add the student's hobby: (press ENTER to skip)"
-    hobby = gets.chomp.capitalize
+    hobby = $stdin.gets.delete("\n").capitalize
     
     puts "Please add the student's cohort month (press ENTER to skip)"
-    cohort = gets.chomp.capitalize
+    cohort = $stdin.gets.delete("\n").capitalize
     cohort.to_sym
     
     # while the name is not empty, repeat this code
     while !name.empty? do
         puts "Please check details:"
-        puts "Name: #{name},".center(80)
-        puts "Birth Year: #{if birth_year.empty? then (birth_year = "N/A") else birth_year end},".center(80)
-        puts "Hobby: #{if hobby.empty? then (hobby = "N/A") else hobby end},".center(80)
+        puts "Name: #{name}".center(80)
+        puts "Birth Year: #{if birth_year.empty? then (birth_year = "N/A") else birth_year end}".center(80)
+        puts "Hobby: #{if hobby.empty? then (hobby = "N/A") else hobby end}".center(80)
         puts "Cohort: #{if cohort.empty? then (cohort = "N/A") else cohort end}".center(80)
         puts "Are all the details are correct? Y/N:"
-        details_conf = gets.chomp.upcase
+        details_conf = $stdin.gets.delete("\n").upcase
         
         if (details_conf == "Y") && (months.include? cohort)
             # add the student hash to the array
@@ -47,16 +47,16 @@ def input_students
         
         # get another name, birth year and hobby from the user
         puts "Please add another Student name: (press ENTER to skip)"
-        name = gets.chomp.capitalize
+        name = $stdin.gets.delete("\n").capitalize
         
         puts "Please add the student's birth year: (press ENTER to skip)"
-        birth_year = gets.chomp
+        birth_year = $stdin.gets.delete("\n")
     
         puts "Please add the student's hobby: (press ENTER to skip)"
-        hobby = gets.chomp.capitalize
+        hobby = $stdin.gets.delete("\n").capitalize
     
         puts "Please add the student's cohort month (press ENTER to skip)"
-        cohort = gets.chomp.capitalize
+        cohort = $stdin.gets.delete("\n").capitalize
         cohort.to_sym
         
     end
@@ -72,7 +72,7 @@ end
     
 def print(students)
     puts "Please enter the letter you wish to filter names by"
-    letter = gets.chomp
+    letter = $stdin.gets.delete("\n")
     # rewritten each() method to use while loop
     counter = 0
     while counter < students.length
