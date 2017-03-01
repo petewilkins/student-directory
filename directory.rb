@@ -7,21 +7,17 @@ def input_students
     students = []
     
     puts "Welcome to the Villains Academy Student Directory"
-    puts "Please enter the Students name:"
-    puts "(press ENTER to skip)"
-    name = gets.chomp
+    puts "Please enter the Students name: (press ENTER to skip)"
+    name = gets.chomp.capitalize
     
-    puts "Please add the student's birth year:"
-    puts "(press ENTER to skip)"
+    puts "Please add the student's birth year: (press ENTER to skip)"
     birth_year = gets.chomp
     
-    puts "Please add the student's hobby:"
-    puts "(press ENTER to skip)"
-    hobby = gets.chomp
+    puts "Please add the student's hobby: (press ENTER to skip)"
+    hobby = gets.chomp.capitalize
     
-    puts "Please add the student's cohort month"
-    puts "(press ENTER to skip)"
-    cohort = gets.chomp
+    puts "Please add the student's cohort month (press ENTER to skip)"
+    cohort = gets.chomp.capitalize
     cohort.to_sym
     
     # while the name is not empty, repeat this code
@@ -36,7 +32,7 @@ def input_students
         
         if (details_conf == "Y") && (months.include? cohort)
             # add the student hash to the array
-            students << {name: name, birth_year: birth_year, hobby: hobby, cohort: :november}
+            students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort}
             puts "Now we have #{students.count} students"
         else
             puts "Incorrect Input, please try again."
@@ -44,25 +40,22 @@ def input_students
         end
         
         # get another name, birth year and hobby from the user
-        puts "Please add another Student name:"
-        puts "(press ENTER to skip)"
-        name = gets.chomp
+        puts "Please add another Student name: (press ENTER to skip)"
+        name = gets.chomp.capitalize
         
-        puts "Please add the student's birth year:"
-        puts "(press ENTER to skip)"
+        puts "Please add the student's birth year: (press ENTER to skip)"
         birth_year = gets.chomp
     
-        puts "Please add the student's hobby:"
-        puts "(press ENTER to skip)"
-        hobby = gets.chomp
+        puts "Please add the student's hobby: (press ENTER to skip)"
+        hobby = gets.chomp.capitalize
     
-        puts "Please add the student's cohort month"
-        puts "(press ENTER to skip)"
-        cohort = gets.chomp
+        puts "Please add the student's cohort month (press ENTER to skip)"
+        cohort = gets.chomp.capitalize
         cohort.to_sym
         
     end
     # return the array of students
+    students.sort_by! {|x| x[:cohort] }
     students
 end
 
