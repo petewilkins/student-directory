@@ -1,17 +1,31 @@
 def input_students
-    puts "Please enter the names of the students"
-    puts "To finish, just hit return twice"
-    # create an empty array
+    
     students = []
-    # get the first name
+    
+    puts "Welcome to the Villains Academy Student Directory"
+    puts "Please enter the Students name:"
     name = gets.chomp
+    
+    puts "Please add the student's birth year:"
+    birth_year = gets.chomp
+    
+    puts "Please add the student's hobby:"
+    hobby = gets.chomp
+    
     # while the name is not empty, repeat this code
     while !name.empty? do
         # add the student hash to the array
-        students << {name: name, cohort: :november}
+        students << {name: name, birth_year: birth_year, hobby: hobby, cohort: :november}
         puts "Now we have #{students.count} students"
-        # get another name from the user
+        
+        # get another name, birth year and hobby from the user
+        puts "Please add another Student name:"
+        puts "(to finish adding names, just hit return three times)"
         name = gets.chomp
+        puts "Please add the student's birth year:"
+        birth_year = gets.chomp
+        puts "Please add the student's hobby:"
+        hobby = gets.chomp
     end
     # return the array of students
     students
@@ -29,22 +43,15 @@ def print(students)
     counter = 0
     while counter < students.length
         if students[counter][:name].start_with?(letter) && students[counter][:name].length < 12
-            puts "#{counter+1}. #{students[counter][:name]} (#{students[counter][:cohort]} cohort)"
+            puts "#{counter+1}. #{students[counter][:name]}"
+            puts "Year of Birth: #{students[counter][:birth_year]}"
+            puts "Hobby: #{students[counter][:hobby]}"
+            puts "Cohort: #{students[counter][:cohort]}"
             counter += 1
         else
             counter += 1
         end
     end
-    
-    # code below this works, but has been rewritten above to use a while loop.
-    #students.each_with_index do |student, index|
-    #    # if the students name starts with the letter chosen
-    #    if student[:name].start_with?(letter) && student[:name].length < 12
-    #        puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
-    #    else
-    #        # move onto next name in key/value pair
-    #    end
-    #end
 end
 
 def print_footer(names)
