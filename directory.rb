@@ -1,31 +1,66 @@
+def months
+    month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+end
+
 def input_students
     
     students = []
     
     puts "Welcome to the Villains Academy Student Directory"
     puts "Please enter the Students name:"
+    puts "(press ENTER to skip)"
     name = gets.chomp
     
     puts "Please add the student's birth year:"
+    puts "(press ENTER to skip)"
     birth_year = gets.chomp
     
     puts "Please add the student's hobby:"
+    puts "(press ENTER to skip)"
     hobby = gets.chomp
+    
+    puts "Please add the student's cohort month"
+    puts "(press ENTER to skip)"
+    cohort = gets.chomp
+    cohort.to_sym
     
     # while the name is not empty, repeat this code
     while !name.empty? do
-        # add the student hash to the array
-        students << {name: name, birth_year: birth_year, hobby: hobby, cohort: :november}
-        puts "Now we have #{students.count} students"
+        puts "Please check details:"
+        puts "Name: #{name},".center(80)
+        puts "Birth Year: #{if birth_year.empty? then (birth_year = "N/A") else birth_year end},".center(80)
+        puts "Hobby: #{if hobby.empty? then (hobby = "N/A") else hobby end},".center(80)
+        puts "Cohort: #{if cohort.empty? then (cohort = "N/A") else cohort end}".center(80)
+        puts "Are all the details are correct? Y/N:"
+        details_conf = gets.chomp.upcase
+        
+        if (details_conf == "Y") && (months.include? cohort)
+            # add the student hash to the array
+            students << {name: name, birth_year: birth_year, hobby: hobby, cohort: :november}
+            puts "Now we have #{students.count} students"
+        else
+            puts "Incorrect Input, please try again."
+            exit(0)
+        end
         
         # get another name, birth year and hobby from the user
         puts "Please add another Student name:"
-        puts "(to finish adding names, just hit return three times)"
+        puts "(press ENTER to skip)"
         name = gets.chomp
+        
         puts "Please add the student's birth year:"
+        puts "(press ENTER to skip)"
         birth_year = gets.chomp
+    
         puts "Please add the student's hobby:"
+        puts "(press ENTER to skip)"
         hobby = gets.chomp
+    
+        puts "Please add the student's cohort month"
+        puts "(press ENTER to skip)"
+        cohort = gets.chomp
+        cohort.to_sym
+        
     end
     # return the array of students
     students
