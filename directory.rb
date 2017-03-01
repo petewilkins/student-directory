@@ -33,7 +33,13 @@ def input_students
         if (details_conf == "Y") && (months.include? cohort)
             # add the student hash to the array
             students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort}
-            puts "Now we have #{students.count} students"
+            # pluralisation of student
+            if students.count >= 2
+                student_plural = "students"
+            else
+                student_plural = "student"
+            end
+            puts "Now we have #{students.count} #{student_plural}."
         else
             puts "Incorrect Input, please try again."
             exit(0)
