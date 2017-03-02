@@ -1,25 +1,34 @@
+@students = []
+
 def interactive_menu
-    students = []
     loop do
-        # 1. print the menu and ask the user what to do
-        puts "1. Input the students"
-        puts "2. Show the students"
-        puts "9. Exit" # 9 because we'll be adding more items
-        # 2. read the input and save it into a variable
-        selection = gets.chomp
-        # 3. do what the user has asked
-        case selection
+        print_menu
+        process(gets.chomp)
+    end
+end
+
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" # 9 because we'll be adding more items
+end
+
+def show_students
+    print_header
+    print_students_list
+    print_footer
+end
+
+def process(selection)
+    case selection
         when "1"
-            students = input_students
+            input_students
         when "2"
-            print_header
-            print(students)
-            print_footer(students)
+            show_students
         when "9"
-            exit # this will cause the program to terminate
+            exit
         else
             puts "I don't know what you meant, try again"
-        end
     end
 end
 
@@ -28,8 +37,6 @@ def months
 end
 
 def input_students
-    
-    students = []
     
     puts "Welcome to the Villains Academy Student Directory"
     puts "Please enter the Students name: (press ENTER to skip)"
@@ -57,14 +64,14 @@ def input_students
         
         if (details_conf == "Y") && (months.include? cohort)
             # add the student hash to the array
-            students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort}
+            @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort}
             # pluralisation of student
-            if students.count >= 2
+            if @students.count >= 2
                 student_plural = "students"
             else
                 student_plural = "student"
             end
-            puts "Now we have #{students.count} #{student_plural}."
+            puts "Now we have #{@students.count} #{student_plural}."
         else
             puts "Incorrect Input, please try again."
             exit(0)
@@ -86,8 +93,7 @@ def input_students
         
     end
     # return the array of students
-    students.sort_by! {|x| x[:cohort] }
-    students
+    @students.sort_by! {|x| x[:cohort] }
 end
 
 def print_header
@@ -95,18 +101,18 @@ def print_header
     puts "-------------"
 end
     
-def print(students)
-    if students.count >= 1
+def print_students_list
+    if @students.count >= 1
         puts "Please enter the letter you wish to filter names by"
         letter = $stdin.gets.delete("\n")
         # rewritten each() method to use while loop
         counter = 0
-        while counter < students.length
-            if students[counter][:name].start_with?(letter) && students[counter][:name].length < 12
-                puts "#{counter+1}. #{students[counter][:name]}".center(80)
-                puts "Year of Birth: #{students[counter][:birth_year]}".center(80)
-                puts "Hobby: #{students[counter][:hobby]}".center(80)
-                puts "Cohort: #{students[counter][:cohort]}".center(80)
+        while counter < @students.length
+            if @students[counter][:name].start_with?(letter) && @students[counter][:name].length < 12
+                puts "#{counter+1}. #{@students[counter][:name]}".center(80)
+                puts "Year of Birth: #{@students[counter][:birth_year]}".center(80)
+                puts "Hobby: #{@students[counter][:hobby]}".center(80)
+                puts "Cohort: #{@students[counter][:cohort]}".center(80)
                 counter += 1
             else
                 counter += 1
@@ -117,13 +123,13 @@ def print(students)
     end
 end
 
-def print_footer(names)
-    if names.count >= 2
+def print_footer
+    if @students.count >= 2
         student_plural = "students"
     else
         student_plural = "student"
     end
-    puts "Overall, we have #{names.count} great #{student_plural}."
+    puts "Overall, we have #{@students.count} great #{student_plural}."
 end
 
 #nothing happens until we call the methods
