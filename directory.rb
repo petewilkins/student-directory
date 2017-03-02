@@ -3,7 +3,7 @@
 def interactive_menu
     loop do
         print_menu
-        process(gets.chomp)
+        process($stdin.gets.chomp)
     end
 end
 
@@ -42,8 +42,20 @@ def months
     month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 end
 
-def load_students
-    file = File.open("students.csv", "r")
+def try_load_students
+    filename = ARGV.first # first argument from the command line
+    return if filename.nil? # get out of the method if it isn't given
+    if File.exist?(filename) # if it exists
+        load_students(filename)
+        puts "Loaded #{@students.count} from #{filename}"
+    else # if it doesn't exist
+        puts "Sorry, #{filename} doesn't exist."
+        exit # quit
+    end
+end
+
+def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
     file.readlines.each do |line|
         name, birth_year, hobby, cohort = line.chomp.split(',')
         @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort.to_sym}
@@ -160,4 +172,5 @@ def print_footer
 end
 
 #nothing happens until we call the methods
+try_load_students
 interactive_menu
