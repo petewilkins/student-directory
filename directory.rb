@@ -54,11 +54,15 @@ def try_load_students
     end
 end
 
+def list_student(name, birth_year, hobby, cohort)
+    @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort.to_sym}
+end
+
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
         name, birth_year, hobby, cohort = line.chomp.split(',')
-        @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort.to_sym}
+        list_student(name, birth_year, hobby, cohort)
     end
     file.close
 end
@@ -91,7 +95,7 @@ def input_students
         
         if (details_conf == "Y") && (months.include? cohort)
             # add the student hash to the array
-            @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort}
+            list_student(name, birth_year, hobby, cohort)
             # pluralisation of student
             if @students.count >= 2
                 student_plural = "students"
@@ -120,7 +124,8 @@ def input_students
         
     end
     # return the array of students
-    @students.sort_by! {|x| x[:cohort] }
+    #@students.sort_by! {|x| x[:cohort] }
+    @students
 end
 
 def save_students
