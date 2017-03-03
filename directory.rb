@@ -25,14 +25,19 @@ end
 def process(selection)
     case selection
         when "1"
+            puts "SELECTED: 1. Input the students"
             input_students
         when "2"
+            puts "SELECTED: 2. Show the students"
             show_students
         when "3"
+            puts "SELECTED 3. Save the list to students.csv"
             save_students
         when "4"
+            puts "SELECTED: 4. Load the list from students.csv"
             load_students
         when "9"
+            puts "SELECTED: 9. Exit"
             exit
         else
             puts "I don't know what you meant, try again"
@@ -143,11 +148,12 @@ end
     
 def print_students_list
     if @students.count >= 1
-        puts "Please enter the letter you wish to filter names by"
+        puts "Would you like to filter names by a letter?"
+        puts "Please enter the letter you wish to filter names by, or press ENTER for no filter"
         letter = $stdin.gets.delete("\n")
         counter = 0
         while counter < @students.length
-            if @students[counter][:name].start_with?(letter) && @students[counter][:name].length < 12
+            if @students[counter][:name].start_with?(letter.upcase) && @students[counter][:name].length < 12
                 puts "#{counter+1}. #{@students[counter][:name]}".center(80)
                 puts "Year of Birth: #{@students[counter][:birth_year]}".center(80)
                 puts "Hobby: #{@students[counter][:hobby]}".center(80)
