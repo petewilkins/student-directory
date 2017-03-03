@@ -11,8 +11,8 @@ end
 def print_menu
     puts "1. Input the students"
     puts "2. Show the students"
-    puts "3. Save the list to students.csv"
-    puts "4. Load the list from students.csv"
+    puts "3. Save the list to a file"
+    puts "4. Load the list from a file"
     puts "9. Exit"
 end
 
@@ -31,10 +31,10 @@ def process(selection)
             puts "SELECTED: 2. Show the students"
             show_students
         when "3"
-            puts "SELECTED 3. Save the list to students.csv"
+            puts "SELECTED 3. Save the list to a file"
             save_students
         when "4"
-            puts "SELECTED: 4. Load the list from students.csv"
+            puts "SELECTED: 4. Load the list from a file"
             load_students
         when "9"
             puts "SELECTED: 9. Exit"
@@ -62,12 +62,31 @@ def try_load_students
 end
 
 def load_students(filename = DEFAULT_FILE)
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-        name, birth_year, hobby, cohort = line.chomp.split(',')
-        list_student(name, birth_year, hobby, cohort)
+    puts "Select from the following load options"
+    puts "1. Load from 'students.csv'"
+    puts "2. Load from a different file"
+    load_choice = $stdin.gets.chomp
+    
+    if load_choice == "1"
+        file = File.open(filename, "r")
+        file.readlines.each do |line|
+            name, birth_year, hobby, cohort = line.chomp.split(',')
+            list_student(name, birth_year, hobby, cohort)
+        end
+        file.close
+    elsif load_choice == "2"
+        puts "Please enter the filename you wish to load from"
+        temp_file = $stdin.gets.chomp
+        new_file = File.open(temp_file, "r")
+        new_file.readlines.each do |line|
+            name, birth_year, hobby, cohort = line.chomp.split(',')
+            list_student(name, birth_year, hobby, cohort)
+        end
+        new_file.close
+    else
+        puts "Please enter a valid filename"
+        load_students()
     end
-    file.close
 end
 
 def list_student(name, birth_year, hobby, cohort)
@@ -131,14 +150,33 @@ def input_students
 end
 
 def save_students
-    file = File.open(DEFAULT_FILE, "w")
-    #iterate over the array of students
-    @students.each do |student|
-        student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
+    puts "Select from the following save options"
+    puts "1. Save file to 'students.csv'"
+    puts "2. Save to a new file"
+    save_choice = $stdin.gets.chomp
+    if save_choice == "1"
+        file = File.open(DEFAULT_FILE, "w")
+        #iterate over the array of students
+        @students.each do |student|
+            student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
+            csv_line = student_data.join(",")
+            file.puts csv_line
+        end
+        file.close
+    elsif save_choice == "2"
+        puts "Please enter the name of the file you wish to save to"
+        temp_file = $stdin.gets.chomp
+        new_file = File.new(temp_file, "w+")
+        @students.each do |student|
+            student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
+            csv_line = student_data.join(",")
+            new_file.puts csv_line
+        end
+        new_file.close
+    else
+        puts "Please only choose from option 1 or 2"
+        save_students
     end
-    file.close
 end
 
 def print_header
