@@ -1,4 +1,5 @@
 @students = []
+DEFAULT_FILE = "students.csv"
 
 def interactive_menu
     loop do
@@ -12,7 +13,7 @@ def print_menu
     puts "2. Show the students"
     puts "3. Save the list to students.csv"
     puts "4. Load the list from students.csv"
-    puts "9. Exit" # 9 because we'll be adding more items
+    puts "9. Exit"
 end
 
 def show_students
@@ -44,22 +45,18 @@ end
 
 def try_load_students
     filename = ARGV.first # first argument from the command line
-    if filename.nil? # go to load students with the default "students.csv"
+    if filename.nil? # if filename is blank load students with the default "students.csv"
         load_students()
-    elsif File.exist?(filename) # if it exists
+    elsif File.exist?(filename)
         load_students(filename)
         puts "Loaded #{@students.count} from #{filename}"
-    else # if it doesn't exist
+    else
         puts "Sorry, #{filename} doesn't exist."
-        exit # quit
+        exit
     end
 end
 
-def list_student(name, birth_year, hobby, cohort)
-    @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort.to_sym}
-end
-
-def load_students(filename = "students.csv")
+def load_students(filename = DEFAULT_FILE)
     file = File.open(filename, "r")
     file.readlines.each do |line|
         name, birth_year, hobby, cohort = line.chomp.split(',')
@@ -68,8 +65,11 @@ def load_students(filename = "students.csv")
     file.close
 end
 
+def list_student(name, birth_year, hobby, cohort)
+    @students << {name: name, birth_year: birth_year, hobby: hobby, cohort: cohort.to_sym}
+end
+
 def input_students
-    
     puts "Welcome to the Villains Academy Student Directory"
     puts "Please enter the Students name: (press ENTER to skip)"
     name = $stdin.gets.delete("\n").capitalize
@@ -95,9 +95,7 @@ def input_students
         details_conf = $stdin.gets.delete("\n").upcase
         
         if (details_conf == "Y") && (months.include? cohort)
-            # add the student hash to the array
             list_student(name, birth_year, hobby, cohort)
-            # pluralisation of student
             if @students.count >= 2
                 student_plural = "students"
             else
@@ -122,16 +120,13 @@ def input_students
         puts "Please add the student's cohort month (press ENTER to skip)"
         cohort = $stdin.gets.delete("\n").capitalize
         cohort.to_sym
-        
     end
     # return the array of students
-    #@students.sort_by! {|x| x[:cohort] }
     @students
 end
 
 def save_students
-    #open the file for writing
-    file = File.open("students.csv", "w")
+    file = File.open(DEFAULT_FILE, "w")
     #iterate over the array of students
     @students.each do |student|
         student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
@@ -150,7 +145,6 @@ def print_students_list
     if @students.count >= 1
         puts "Please enter the letter you wish to filter names by"
         letter = $stdin.gets.delete("\n")
-        # rewritten each() method to use while loop
         counter = 0
         while counter < @students.length
             if @students[counter][:name].start_with?(letter) && @students[counter][:name].length < 12
