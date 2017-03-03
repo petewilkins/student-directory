@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 DEFAULT_FILE = "students.csv"
 
@@ -68,20 +69,14 @@ def load_students(filename = DEFAULT_FILE)
     load_choice = $stdin.gets.chomp
     
     if load_choice == "1"
-        File.open(filename, "r") do |f|
-            f.readlines.each do |line|
-                name, birth_year, hobby, cohort = line.chomp.split(',')
-                list_student(name, birth_year, hobby, cohort)
-            end
+        CSV.foreach(filename, "r").each do |row|
+            @students << {name: row[0], birth_year: row[1], hobby: row[2], cohort:row[3].to_sym}
         end
     elsif load_choice == "2"
         puts "Please enter the filename you wish to load from"
         temp_file = $stdin.gets.chomp
-        File.open(temp_file, "r") do |f|
-            f.readlines.each do |line|
-                name, birth_year, hobby, cohort = line.chomp.split(',')
-                list_student(name, birth_year, hobby, cohort)
-            end
+        CSV.foreach(temp_file, "r").each do |row|
+            @students << {name: row[0], birth_year: row[1], hobby: row[2], cohort:row[3].to_sym}
         end
     else
         puts "Please enter a valid filename"
@@ -155,22 +150,20 @@ def save_students
     puts "2. Save to a new file"
     save_choice = $stdin.gets.chomp
     if save_choice == "1"
-        File.open(DEFAULT_FILE, "w") do |file|
+        CSV.open(DEFAULT_FILE, "w") do |csv|
             #iterate over the array of students
             @students.each do |student|
                 student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
-                csv_line = student_data.join(",")
-                file.puts csv_line
+                csv << student_data
             end
         end
     elsif save_choice == "2"
         puts "Please enter the name of the file you wish to save to"
         temp_file = $stdin.gets.chomp
-        File.open(temp_file, "w+") do |file|
+        CSV.open(temp_file, "w+") do |csv|
             @students.each do |student|
                 student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
-                csv_line = student_data.join(",")
-                file.puts csv_line
+                csv << student_data
             end
         end
     else
