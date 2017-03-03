@@ -68,21 +68,21 @@ def load_students(filename = DEFAULT_FILE)
     load_choice = $stdin.gets.chomp
     
     if load_choice == "1"
-        file = File.open(filename, "r")
-        file.readlines.each do |line|
-            name, birth_year, hobby, cohort = line.chomp.split(',')
-            list_student(name, birth_year, hobby, cohort)
+        File.open(filename, "r") do |f|
+            f.readlines.each do |line|
+                name, birth_year, hobby, cohort = line.chomp.split(',')
+                list_student(name, birth_year, hobby, cohort)
+            end
         end
-        file.close
     elsif load_choice == "2"
         puts "Please enter the filename you wish to load from"
         temp_file = $stdin.gets.chomp
-        new_file = File.open(temp_file, "r")
-        new_file.readlines.each do |line|
-            name, birth_year, hobby, cohort = line.chomp.split(',')
-            list_student(name, birth_year, hobby, cohort)
+        File.open(temp_file, "r") do |f|
+            f.readlines.each do |line|
+                name, birth_year, hobby, cohort = line.chomp.split(',')
+                list_student(name, birth_year, hobby, cohort)
+            end
         end
-        new_file.close
     else
         puts "Please enter a valid filename"
         load_students()
@@ -155,24 +155,24 @@ def save_students
     puts "2. Save to a new file"
     save_choice = $stdin.gets.chomp
     if save_choice == "1"
-        file = File.open(DEFAULT_FILE, "w")
-        #iterate over the array of students
-        @students.each do |student|
-            student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
-            csv_line = student_data.join(",")
-            file.puts csv_line
+        File.open(DEFAULT_FILE, "w") do |file|
+            #iterate over the array of students
+            @students.each do |student|
+                student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
+                csv_line = student_data.join(",")
+                file.puts csv_line
+            end
         end
-        file.close
     elsif save_choice == "2"
         puts "Please enter the name of the file you wish to save to"
         temp_file = $stdin.gets.chomp
-        new_file = File.new(temp_file, "w+")
-        @students.each do |student|
-            student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
-            csv_line = student_data.join(",")
-            new_file.puts csv_line
+        File.open(temp_file, "w+") do |file|
+            @students.each do |student|
+                student_data = [student[:name], student[:birth_year], student[:hobby], student[:cohort]]
+                csv_line = student_data.join(",")
+                file.puts csv_line
+            end
         end
-        new_file.close
     else
         puts "Please only choose from option 1 or 2"
         save_students
